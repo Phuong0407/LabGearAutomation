@@ -5,6 +5,7 @@
 
 #include <stdint.h>
 #include <stdexcept>
+#include <string.h>
 
 namespace Protocols::TCP {
 
@@ -14,12 +15,13 @@ namespace Protocols::TCP {
             if (!is_valid_ipv4(ip)) {
                 throw std::invalid_argument("[Protocols/] Invalid IPv4 address.");
             }
-            this->ip = ip;
+            strncpy(this->ip, ip, 16);
+            this->ip[16] = '\0';
             this->port = port;
         }
 
         private:
-            char *ip;
+            char ip[16];
             uint16_t port;
     };
 
