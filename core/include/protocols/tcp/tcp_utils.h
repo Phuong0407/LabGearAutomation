@@ -8,9 +8,9 @@
 static bool is_valid_ipv4(const char *ip) {
     if (ip == NULL) return false;
 
-    uint16_t digits;
-    uint16_t dots;
-    uint16_t num;
+    uint16_t digits = 0;
+    uint16_t dots = 0;
+    uint16_t num = 0;
 
     for (const char* p = ip; *p; ++p) {
         if (*p == '.') {
