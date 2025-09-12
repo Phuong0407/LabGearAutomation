@@ -1,5 +1,5 @@
-#ifndef core_include_protocols_tcp_tcp_utils_h
-#define core_include_protocols_tcp_tcp_utils_h
+#ifndef include_protocol_tcp_utils_h
+#define include_protocol_tcp_utils_h
 
 #include <ctype.h>
 #include <stdint.h>
@@ -30,4 +30,4 @@ static bool is_valid_ipv4(const char *ip) {
     return (dots == 3) && (digits > 0) && (num <= 255);
 }
 
-#endif // core_include_protocols_tcp_tcp_utils_h
+#endif /* include_protocol_tcp_utils_h */
