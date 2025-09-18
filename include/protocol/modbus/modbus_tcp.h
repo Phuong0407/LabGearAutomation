@@ -24,7 +24,6 @@ typedef struct {
     update_func_t *update_co;
     update_func_t *update_ir;
     update_func_t *update_hr;
-    update_func_t *update_err;
 } ModbusServer;
 
 int start_modbus_server(ModbusServer *server);
@@ -57,7 +56,6 @@ void init_modbus_server(
     server->update_co = update_co;
     server->update_ir = update_ir;
     server->update_hr = update_hr;
-    server->update_err = update_err;
 }
 
 /**
@@ -113,19 +111,6 @@ int close_modbus_server(ModbusServer *server) {
         server->ctx = NULL;
     }
     return 0;
-}
-
-
-void poll_update_data() {
-    while (1) {
-        // to do
-    }
-}
-
-void poll_error_state() {
-    while (1) {
-        // to do
-    }
 }
 
 #endif
