@@ -118,18 +118,21 @@ ssize_t usbtmc_recv(int fd, void *buf, size_t len) {
         errno = EINVAL;
         return -1;
     }
-    if (fd < 0) {
+    if (len <= 0) {
         TMC_DBG("Invalid len %zu", len);
         errno = EINVAL;
         return -1;
     }
 
+    int max_retry = 5;
+    int retry = 0;
     ssize_t t_read = 0;
-    while (t_read < (ssize_t)len) {
+    while (t_read < (ssize_t)len && retry < max_retry) {
         ssize_t st_read = read(fd, (char*)buf + t_read, len - t_read);
         if (st_read == -1) {
             if (errno == EINTR) {
                 TMC_DBG("Read from USBTMC is interrupted by system, retrying...");
+                retry++;
                 continue;
             }
             TMC_DBG("Failed to read from USBTMC, errno=%d: %s", errno, strerror(errno));
@@ -138,7 +141,12 @@ ssize_t usbtmc_recv(int fd, void *buf, size_t len) {
             break;
         }
         t_read += st_read;
-        break;
+    }
+
+    if (retry >= max_retry) {
+        TMC_DBG("Max retry for USBTMC receiver interrupted read");
+        errno = EAGAIN;
+        return -2;
     }
     TMC_DBG("Received %zd bytes from USBTMC", t_read);
     return t_read;
